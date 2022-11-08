@@ -28,6 +28,9 @@ gem "sqlite3", "~> 1.4"
 # https://github.com/jarmo/require_all
 gem "require_all"
 
+# to create secure password
+gem 'bcrypt'
+
 # These gems will only be used when we are running the application locally
 group :development do
   # Used to generate seed data

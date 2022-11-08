@@ -25,7 +25,23 @@ class ApplicationController < Sinatra::Base
            password: params[:password]
         )
         user.to_json
-       end
+      end
+
+      # get "/users/:email_address" do
+      #    user = User.find_by_email_address(params[:username])
+      #    user.to_json(include: [:trips])
+      # end
+
+      post '/login' do
+         user = User.find_by(:email_address => params[:email_address])
+         if user && user.authenticate(params[:password])
+            session[:user_id] = user.id 
+            redirect to "/reviews"
+         else
+            flash[:error] = "your credentials are invalid please sign up or try again."
+            redirect to '/'
+         end         
+      end
 
      get '/reviews' do
         reviews = Review.all
@@ -40,5 +56,24 @@ class ApplicationController < Sinatra::Base
            user_id: params[:user_id]
         )
         review.to_json   
-       end 
+      end 
+
+      patch '/reviews/:id' do
+         review = Review.find(params[:id])
+         review.update(
+           score: params[:score],
+           comment: params[:comment]
+         )
+         review.to_json
+      end
+
+      delete '/reviews/:id' do
+         # find the review using the ID
+         review = Review.find(params[:id])
+         # delete the review
+         review.destroy
+         # send a response with the deleted review as JSON
+         review.to_json
+       end
+   
 end
