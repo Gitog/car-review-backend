@@ -1,17 +1,24 @@
 puts "🌱 Seeding data..."
 
 # Make 10 users
-10.times do
-    user = User.create(name: Faker::Name.name, email_address: Faker::Internet.email)
+15.times do
+    user = User.create(full_name: Faker::Name.name, email_address: Faker::Internet.email, gender: Faker::Gender.binary_type, password: Faker::Internet.password)
 end
 
-40.times do
+20.times do
     # create a car with random data
-    makeModel = Faker::Vehicle.make_and_model
-    array = array[0]
-    model = array[1]
+    car = Car.create(make: Faker::Vehicle.make, model: Faker::Vehicle.model, price: Faker::Commerce.price, image_url: Faker::LoremFlickr.image) #LoremFlickr
 
-    car = Car.create(year: Faker::Vehicle.year, make: make, model: model, price: Faker::Commerce.price(range: 30000..100000, as_string: true), mileage: Faker::Vehicle.mileage, color: Faker::Vehicle.color, image: carArray.sample)
+    rand(1..5).times do
+        user = User.order('RANDOM()').first
+
+        Review.create(
+        score: rand(1..10),
+        comment: Faker::Lorem.sentence,
+        car_id: car.id,
+        user_id: user.id
+        )
+    end
 end
 
 puts "🌱 Done seeding!"
