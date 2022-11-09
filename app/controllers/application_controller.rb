@@ -74,6 +74,6 @@ class ApplicationController < Sinatra::Base
          review.destroy
          # send a response with the deleted review as JSON
          review.to_json
-       end
+      end
    
 end
