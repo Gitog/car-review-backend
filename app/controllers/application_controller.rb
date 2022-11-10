@@ -4,13 +4,31 @@ class ApplicationController < Sinatra::Base
     get '/cars' do
        cars = Car.all
        cars.to_json
+    end 
+
+    post '/new_car' do
+     car = Car.create(
+         make: params[:make],
+         model: params[:model],
+         image_url: params[:image_url],
+         price: params[:price]
+      )
+      car.to_json
     end
 
-    get '/cars/:make' do
-        car = Car.find_by_make(params[:make])
+
+
+   #  get '/cars/:make' do
+   #      car = Car.find_by_make(params[:make])
         
-        car.to_json(only: [:make, :model], include: {reviews: {only: [:comment, :score], include: {user: {only: [:full_name]}}}})
-    end
+   #      car.to_json(only: [:make, :model], include: {reviews: {only: [:comment, :score], include: {user: {only: [:full_name]}}}})
+   #  end
+
+    get '/cars/:id' do
+      car = Car.find(params[:id])
+      
+      car.to_json(only: [:id,:make, :model], include: {reviews: {only: [:comment, :score], include: {user: {only: [:full_name]}}}})
+  end
 
     get '/users' do
         users = User.all
@@ -75,5 +93,18 @@ class ApplicationController < Sinatra::Base
          # send a response with the deleted review as JSON
          review.to_json
       end
+
+      delete '/cars/:id' do
+         # find the review using the ID
+         car = Car.find(params[:id])
+         # delete the review
+         car.destroy
+         # send a response with the deleted review as JSON
+         car.to_json
+      end
+
+
+
+
    
 end

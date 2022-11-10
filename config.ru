@@ -7,7 +7,7 @@ use Rack::Cors do
       # ONLY allow requests from YOUR frontend origin, like:
       # origins 'my-react-app.netlify.app')
       origins '*'
-      resource '*', headers: :any, methods: [:get, :post, :delete, :put, :patch, :options, :head]
+      resource '*', headers: :any, methods: [:get, :post, :delete, :put, :patch, :options, :head, :destroy]
     end
 end
 # Parse JSON from the request body into the params hash
