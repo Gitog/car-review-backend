@@ -17,3 +17,5 @@ Backed end for car review system
 
 #Basic server url -> http://localhost:9292/
 
+#link to the frontend https://github.com/Gitog/carreview/tree/main/carreview
+
